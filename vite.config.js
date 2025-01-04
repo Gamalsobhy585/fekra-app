@@ -10,4 +10,14 @@ export default defineConfig({
         }),
         react(),
     ],
+    esbuild: {
+        loader: 'jsx', // Ensure JSX syntax is handled
+        include: /\.(js|jsx)$/, // Process .js and .jsx files as JSX
+        exclude: /node_modules/,
+    },
+    server: {
+        hmr: {
+            overlay: false, // Disable the error overlay if it's intrusive
+        },
+    },
 });
