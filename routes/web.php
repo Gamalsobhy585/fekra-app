@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Post;
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome');
-// });
 
 Route::get('/posts', function () {
     return Inertia::render('Posts', [

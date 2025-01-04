@@ -45,27 +45,140 @@ const Posts = ({ posts }) => {
         }
     };
 
+    const styles = {
+        container: {
+            minHeight: '100vh',
+            backgroundColor: '#F9FAFB',
+            padding: '2rem 0',
+        },
+        wrapper: {
+            maxWidth: '80rem',
+            margin: '0 auto',
+            padding: '0 1rem',
+        },
+        card: {
+            backgroundColor: 'white',
+            borderRadius: '0.5rem',
+            boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+            padding: '1.5rem',
+        },
+        header: {
+            marginBottom: '2rem',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+        },
+        title: {
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            color: '#111827',
+        },
+        buttonGroup: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+        },
+        exportButton: {
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '0.5rem 1rem',
+            backgroundColor: '#2563EB',
+            color: 'white',
+            borderRadius: '0.375rem',
+            transition: 'background-color 150ms ease-in-out',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+            cursor: 'pointer',
+        },
+        dropZone: {
+            position: 'relative',
+            border: '2px dashed',
+            borderColor: isDragging ? '#3B82F6' : '#D1D5DB',
+            borderRadius: '0.5rem',
+            padding: '1rem',
+            transition: 'all 150ms ease-in-out',
+            backgroundColor: isDragging ? '#EFF6FF' : 'transparent',
+        },
+        fileInput: {
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            opacity: 0,
+            cursor: 'pointer',
+        },
+        uploadText: {
+            display: 'flex',
+            alignItems: 'center',
+            fontSize: '0.875rem',
+            color: '#4B5563',
+        },
+        importButton: {
+            display: 'inline-flex',
+            alignItems: 'center',
+            padding: '0.5rem 1rem',
+            marginLeft: '1rem',
+            borderRadius: '0.375rem',
+            transition: 'all 150ms ease-in-out',
+            boxShadow: '0 1px 2px rgba(0, 0, 0, 0.05)',
+            backgroundColor: file ? '#059669' : '#D1D5DB',
+            color: file ? 'white' : '#6B7280',
+            cursor: file ? 'pointer' : 'not-allowed',
+        },
+        table: {
+            minWidth: '100%',
+            borderCollapse: 'collapse',
+            border: '1px solid #E5E7EB',
+        },
+        tableHeader: {
+            backgroundColor: '#EFF6FF',
+        },
+        th: {
+            padding: '0.75rem 1.5rem',
+            textAlign: 'left',
+            fontSize: '0.75rem',
+            fontWeight: 500,
+            color: '#374151',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em',
+            border: '1px solid #E5E7EB',
+        },
+        td: {
+            padding: '1rem 1.5rem',
+            fontSize: '0.875rem',
+            color: '#111827',
+            border: '1px solid #E5E7EB',
+            whiteSpace: 'nowrap',
+        },
+        tdBody: {
+            padding: '1rem 1.5rem',
+            fontSize: '0.875rem',
+            color: '#6B7280',
+            border: '1px solid #E5E7EB',
+        },
+        iconMargin: {
+            marginRight: '0.5rem',
+        },
+    };
+
     return (
-        <div className="min-h-screen bg-gray-50 py-8">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="bg-white rounded-lg shadow-lg p-6">
-                    <div className="mb-8 flex justify-between items-center">
-                        <h1 className="text-3xl font-bold text-gray-900">Posts Manager</h1>
-                        <div className="flex items-center space-x-4">
+        <div style={styles.container}>
+            <div style={styles.wrapper}>
+                <div style={styles.card}>
+                    <div style={styles.header}>
+                        <h1 style={styles.title}>Posts Manager</h1>
+                        <div style={styles.buttonGroup}>
                             <button
                                 onClick={handleExport}
-                                className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition duration-150 ease-in-out shadow-sm"
+                                style={styles.exportButton}
                                 type="button"
                             >
-                                <DownloadCloud className="w-5 h-5 mr-2" />
+                                <DownloadCloud style={styles.iconMargin} size={20} />
                                 Export to Excel
                             </button>
 
-                            <form onSubmit={handleImport} className="flex items-center">
+                            <form onSubmit={handleImport} style={{ display: 'flex', alignItems: 'center' }}>
                                 <div
-                                    className={`relative border-2 border-dashed rounded-lg p-4 transition-colors duration-150 ease-in-out ${
-                                        isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
-                                    }`}
+                                    style={styles.dropZone}
                                     onDragOver={(e) => {
                                         handleDrag(e);
                                         setIsDragging(true);
@@ -83,46 +196,40 @@ const Posts = ({ posts }) => {
                                             setShowFileName(e.target.files[0].name);
                                         }}
                                         accept=".xlsx"
-                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                                        style={styles.fileInput}
                                     />
-                                    <div className="flex items-center">
-                                        <Upload className="w-5 h-5 text-gray-400 mr-2" />
-                                        <span className="text-sm text-gray-600">
-                                            {showFileName || 'Drop Excel file or click to upload'}
-                                        </span>
+                                    <div style={styles.uploadText}>
+                                        <Upload style={styles.iconMargin} size={20} color="#9CA3AF" />
+                                        <span>{showFileName || 'Drop Excel file or click to upload'}</span>
                                     </div>
                                 </div>
                                 <button
                                     type="submit"
                                     disabled={!file}
-                                    className={`ml-4 inline-flex items-center px-4 py-2 rounded-md transition duration-150 ease-in-out shadow-sm ${
-                                        file
-                                            ? 'bg-green-600 hover:bg-green-700 text-white'
-                                            : 'bg-gray-300 cursor-not-allowed text-gray-500'
-                                    }`}
+                                    style={styles.importButton}
                                 >
-                                    <FileSpreadsheet className="w-5 h-5 mr-2" />
+                                    <FileSpreadsheet style={styles.iconMargin} size={20} />
                                     Import
                                 </button>
                             </form>
                         </div>
                     </div>
 
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full border border-gray-300">
-                            <thead className="bg-blue-100">
+                    <div style={{ overflowX: 'auto' }}>
+                        <table style={styles.table}>
+                            <thead style={styles.tableHeader}>
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-300">ID</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-300">Title</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider border border-gray-300">Body</th>
+                                    <th style={styles.th}>ID</th>
+                                    <th style={styles.th}>Title</th>
+                                    <th style={styles.th}>Body</th>
                                 </tr>
                             </thead>
-                            <tbody className="bg-white">
+                            <tbody>
                                 {posts && posts.map((post) => (
-                                    <tr key={post.id} className="hover:bg-gray-50 transition-colors duration-150 ease-in-out">
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 border border-gray-300">{post.id}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-900 border border-gray-300">{post.title}</td>
-                                        <td className="px-6 py-4 text-sm text-gray-500 border border-gray-300">{post.body}</td>
+                                    <tr key={post.id}>
+                                        <td style={styles.td}>{post.id}</td>
+                                        <td style={styles.td}>{post.title}</td>
+                                        <td style={styles.tdBody}>{post.body}</td>
                                     </tr>
                                 ))}
                             </tbody>
